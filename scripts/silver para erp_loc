@@ -1,0 +1,20 @@
+TRUNCATE TABLE silver.erp_loc_a101;
+INSERT INTO silver.erp_loc_a101(cid, cntry)
+
+--normalizamos y elimnamos el "-" del id
+SELECT
+REPLACE (cid, '-', '')cid,
+CASE WHEN TRIM(cntry) = 'DE' THEN 'GERMANY'
+	WHEN TRIM(cntry) IN ('US', 'USA') THEN 'UNITED STATES'
+	WHEN TRIM(cntry) = '' OR cntry IS NULL THEN 'n/a'
+	ELSE TRIM(cntry)
+END AS cntry
+FROM bronze.erp_loc_a101
+
+--comprabamos
+SELECT DISTINCT cntry
+FROM silver.erp_loc_a101
+ORDER BY cntry
+
+
+SELECT * FROM silver.erp_loc_a101
