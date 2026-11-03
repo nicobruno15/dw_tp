@@ -1,0 +1,31 @@
+-- vemos q hay registros d gente q ncio en el futuro 
+SELECT DISTINCT
+bdate
+FROM bronze.erp_cust_az12
+WHERE bdate < '1924-01-01' OR  bdate < GETDATE()
+
+SELECT * FROM bronze.erp_cust_az12
+
+--estadnarizamos
+SELECT DISTINCT
+gen,
+CASE WHEN UPPER(TRIM(GEN)) IN ('F', 'FEMALE') THEN 'FEMALE'
+	WHEN UPPER(TRIM(GEN)) IN ('M', 'MALE') THEN 'MALE'
+	ELSE 'n/a'
+	END AS gen
+	FROM bronze.erp_cust_az12
+
+
+	-- chequeamos fecha nacimiento para silver
+SELECT DISTINCT
+bdate
+FROM silver.erp_cust_az12
+WHERE bdate < '1924-01-01' OR  bdate > GETDATE()
+
+--chequeamos genero
+SELECT DISTINCT
+gen
+from silver.erp_cust_az12
+
+---vemos la tabla final
+SELECT * FROM silver.erp_cust_az12
